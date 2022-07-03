@@ -1,0 +1,102 @@
+{% extends "layout.html" %} 
+{% block title %}Reset{% endblock %}
+
+{% block body %}
+<div class="alert alert-danger" role="alert" {% if error == " " %}style="display:none;"{% endif %}>
+    {{error}}
+  </div>
+    <div id="form">
+        <img id="weather" src="\static\weather1.jpg" alt="weather-img">
+            <form action="/reset" method="post">
+                <h1>Reset Password</h1>
+                    <div class="formcontainer">
+                        <hr/>
+                            <div class="container">
+                                <label for="oldPassword"><strong>Enter old password</strong></label>
+                                <input type="text" placeholder="Old password" name="oldPassword" required>
+                                <label for="psw"><strong>New Password</strong></label>
+                                <input type="password" placeholder="Enter new password" name="newPassword" required>
+                                <label for="confirm"><strong>Confirm new password</strong></label>
+                                <input type="password" placeholder="Confirm new password" name="confirm" required>
+                            </div>
+                        <button type="submit" formmethod="post">Reset</button>
+                    </div>
+            </form>
+        <img id="weather" src="\static\weather2.jpg" alt="weather-img">
+    </div>
+{% endblock %}
+
+{% block head %}
+<style>
+
+    form {
+    border: 5px solid #f1f1f1;
+    padding: 8%;
+    }
+    input[type=text], input[type=password] {
+    width: 100%;
+    padding: 16px 8px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    }
+    button {
+    background-color: #0ea5e9;
+    color: white;
+    padding: 14px 0;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    transition: 0.3s;
+    }
+    button:hover{
+        background-color: #0c4a6e;
+    }
+    h1 {
+    text-align:center;
+    font-size:18;
+    }
+    button:hover {
+    opacity: 0.8;
+    }
+    .formcontainer {
+    align-items: center;
+    text-align: left;
+    margin: 24px 50px 12px;
+    }
+    .container {
+    padding: 16px 0;
+    text-align:left;
+    }
+    #weather{
+    object-fit: cover;
+    width: 20%;
+    height: 50rem;
+    margin-inline: 10px;
+    }
+    #form{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    /* Change styles for span on extra small screens */
+    @media screen and (max-width: 1000px) {
+    form{
+        margin-inline: 10%;
+    }
+    #form{
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    #weather{
+        width: 100%;
+        height: 500px;
+    }
+    #end{margin: 0px !important;}
+}
+  </style>
+{% endblock %}

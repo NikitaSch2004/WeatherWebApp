@@ -1,0 +1,265 @@
+{% extends 'layout.html' %}
+{% block title %}Weather{% endblock %}
+{% block head %}
+<style>
+    #end{
+        position: fixed;
+        bottom: 0%;
+        width: 100%;
+        
+    }
+    #other{
+        align-self: center;
+    }
+        .container2{
+            width: 100%;
+            height: 230px;
+            display: inline-flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .w{
+            padding: 0px;
+            margin: 0px;
+        }
+        .l{
+            list-style-type: none;
+            margin-bottom: 15px;
+        }
+        h3{
+            margin: 0px 0px 10px 0px;
+        }
+        .container{
+            font-size: 20px;
+            background: rgb(195,245,255);
+            background: linear-gradient(324deg, rgba(195,245,255,1) 0%, rgba(0,212,255,1) 100%);
+            border: 5px solid black;
+            border-radius: 20px;
+            height: 100%;
+            width: 1000px;
+        }
+        h1{
+            margin: 10px 0px 0px 0px;
+            text-align: center;
+        }
+        .conditions{
+            margin-left: 20px;
+        }
+        .lastconditions{
+            
+            margin-right: 20px;
+        }
+        .weather{
+            font-size: 60px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        button {
+  background-color: turquoise; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 30px;
+  transition-duration: 0.4s;
+}
+button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+    .button{
+        display: flex;
+        justify-content: center;
+    }
+    #img{
+        margin: 0px;
+    }
+    #forecast{
+        display: none;
+    }
+    @media screen and (max-width: 1000px) {
+    .container2{
+        font-size: 16px;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .weather{
+        font-size: 28px;
+    }
+    .container{
+        width: 100%;
+        height: 500px;
+    }
+    .conditions{margin: 0px 40px 0px 0px;
+    }
+    #end{margin: 0px !important;}
+    html{
+        height: 1250px !important;
+    }
+}
+#system{
+    display: inline;
+    width: 100px;
+        color: #e0f2fe;
+        text-align: center;
+        text-decoration: none !important;
+        font-size: 20px;
+        pointer-events: none;
+        cursor: default;
+}
+label {
+margin: 30px 0px 25px 0px;
+  width: 50px;
+  height: 25px;
+  background-color: lime;
+  border-radius: 50px;
+  cursor: pointer;
+}
+input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+input:checked ~ .slider {
+  background-color: lime;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  box-shadow: inset 28px -4px 0px 0px var(--light);
+  background-color: white;
+  transition: 0.3s;
+}
+
+input:checked ~ .slider::before {
+  transform: translateX(25px);
+  background-color: white;
+  box-shadow: none;
+}
+#slider{
+    display: flex;
+    width: 250px;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+}
+#slider:hover{
+    background-color: #65a30d;
+}
+    </style>
+{% endblock %}
+{% block body %}
+<div class="weather">Weather Forecast Region: {{location}}</div>
+        <div class="main-container">
+            <div class="container">
+                <h1>Weather Today</h1>
+                <div class="container2">
+                    <div class="conditions">
+                        <h3>Conditions:</h3>
+                        <ul class="w">
+                            <li class="l" id="img">Overcast: <img src="{{img}}" width="50px" height="50px" alt="weather condition"></li>
+                            <li class="l">Temperature: <i><b>{{current['temp_c']}}℃</b></i></li>
+                            <li class="l">Feels-Like: {{current['feelslike_c']}}℃</li>
+                            <li class="l">Humidity: {{current["humidity"]}}%</li>
+                        </ul>
+                    </div>
+                    <div class="Otherconditions">
+                        <h3>Other Conditions:</h3>
+                        <ul class="w">
+                            <li class="l">Clouds: {{current['cloud']}}%</li>
+                            <li class="l">Wind: {{current['wind_kph']}}km/h</li>
+                            <li class="l">wind-direction: {{current['wind_dir']}}</li>
+                        </ul>
+                        <ul class="w">
+                            <li class="l">Pressure: {{current['pressure_mb']}}mb</li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        <br>
+        <div class="button">
+            <button type="submit" onclick="forecast()" id="forecastButton">Get weather forecast for the next 2 days</button>
+        </div>
+<div id="forecast">
+        <div class="main-container">
+            <div class="container">
+                <h1>Weather on {{first_date}}</h1>
+                <div class="container2">
+                    <div class="conditions">
+                        <h3>Conditions:</h3>
+                        <ul class="w">
+                            <li class="l" id="img">Overcast: <img src="{{first_day['day']['condition']['icon']}}" width="50px" height="50px" alt="weather condition"></li>
+                            <li class="l">Temperature: <i><b>{{first_day['day']['avgtemp_c']}}℃</b></i></li>
+                            <li class="l">Humidity: {{first_day['day']['avghumidity']}}%</li>
+                        </ul>
+                    </div>
+                    <div class="Otherconditions">
+                        <h3 id="other">Other Conditions:</h3>
+                        <ul class="w">
+                            <li class="l">Wind: {{first_day['day']['maxwind_kph']}}km/h</li>
+                        </ul>
+                        <ul class="w">
+                            <li class="l">precipitations.: {{first_day['day']['totalprecip_mm']}}mm</li>
+                            <li class="l">UV: {{first_day['day']['uv']}}%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </br>
+        <div class="main-container">
+            <div class="container">
+                <h1>Weather on {{second_date}}</h1>
+                <div class="container2">
+                    <div class="conditions">
+                        <h3>Conditions:</h3>
+                        <ul class="w">
+                            <li class="l" id="img">Overcast: <img src="{{second_day['day']['condition']['icon']}}" width="50px" height="50px" alt="weather condition"></li>
+                            <li class="l">Temperature: <i><b>{{second_day['day']['avgtemp_c']}}℃</b></i></li>
+                            <li class="l">Humidity: {{second_day['day']['avghumidity']}}%</li>
+                        </ul>
+                    </div>
+                    <div class="Otherconditions">
+                        <h3>Other Conditions:</h3>
+                        <ul class="w">
+                            <li class="l">Wind: {{second_day['day']['maxwind_kph']}}km/h</li>
+                        </ul>
+                        <ul class="w">
+                            <li class="l">precipitations.: {{second_day['day']['totalprecip_mm']}}mm</li>
+                            <li class="l">UV: {{second_day['day']['uv']}}%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<br>
+<script>
+function forecast(){
+    document.getElementById("forecast").style.display = "initial";
+    document.getElementById("forecastButton").style.display = "none";
+    document.getElementById("end").style.position = "relative";
+}
+</script>
+<script>
+    function func(){
+        var pagebutton= document.getElementById("submit");
+        pagebutton.click();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %} Page</title>
+    <link rel="icon" href="..\static\favicon.ico" type="image/icon type">
+    {% block head %}{% endblock %}
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+      html {
+        height: 100%;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+      body {
+        height: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+      }
+      ul.topnav {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #65a30d;
+      }
+
+      ul.topnav li {
+        float: left;
+      }
+
+      ul.topnav li a {
+        display: block;
+        color: #e0f2fe;
+        text-align: center;
+        padding: 25px 40px;
+        text-decoration: none;
+        font-size: 20px;
+      }
+      #logged {
+        display: block;
+        color: #e0f2fe;
+        text-align: center;
+        padding: 25px 20px;
+        text-decoration: none;
+        font-size: 20px;
+      }
+
+      ul.topnav li.right {
+        float: right;
+      }
+      li{
+        transition: 0.3s;
+        border-radius: 5%;
+      }
+      li:hover{
+        background-color: #4d7c0f;
+      }
+      @media screen and (max-width: 600px) {
+        ul.topnav li.right,
+        ul.topnav li {
+          float: none;
+        }
+      }
+      #about {
+        width: 300px;
+        text-align: center;
+        font-size: large;
+      }
+      #end{
+        margin-top: 30px;
+        background-color: #94a3b8;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="topnav">
+      <li><a class="active" href="/">Home</a></li>
+      <li><a href="/weather">Weather Forecast</a></li>
+      {% block li %}{% endblock %}
+      {% if session['user'] %}
+      <li class="right"><a href="/logout">Log Out</a></li>
+      <li class="right" ><a href="/reset">Reset Password</a></li>
+      <li class="right" id="logged">User: {{session['user']}}</li>
+      {% elif not session['user'] %}
+      <li class="right"><a href="/register">Register</a></li>
+      <li class="right"><a href="/login">Log In</a></li>
+      {% endif %}
+    </ul>
+    {% block body %}{% endblock %}
+    <div id="end">
+      <div id="about">&#64;2022 made by NikitaSch</div>
+    </div>
+    <script>
+      if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+      }
+    </script>
+  </body>
+</html>
